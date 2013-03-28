@@ -36,6 +36,8 @@ def _main(args):
     for w, tfidf, tf, df in calculate(fins):
         print w + "\t" + str(tfidf) + "\t" + str(tf) + "\t" + str(df)
 
+    return 0
+
 if __name__ == '__main__':
     import sys
     sys.exit(_main(sys.argv))
