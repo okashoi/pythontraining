@@ -1,4 +1,4 @@
-# !/usr/bin/python
+# !/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
 # for python 2.x
@@ -8,19 +8,19 @@ def calculate(fins):
     import math
     from collections import defaultdict
 
-    freq = defaultdict(int)
+    tf = defaultdict(int)
     df = defaultdict(int)
     for fin in fins:
-        count = defaultdict(int)
+        word2freq = defaultdict(int)
         for line in fin:
-            count[unicode(line.strip(), "utf-8")] += 1
-        for nounphrase, c in count.items():
-            freq[nounphrase] += c
-            df[nounphrase] += 1
+            word2freq[unicode(line.strip(), "utf-8")] += 1
+        for word, freq in word2freq.items():
+            tf[word] += freq
+            df[word] += 1
 
     N = len(fins)
-    for w in freq.keys():
-        yield w, freq[w] * math.log(float(N) / df[w]), freq[w], df[w]
+    for word in word2freq:
+        yield word, tf[word] * math.log(float(N) / df[word]), tf[word], df[word]
 
 
 def _main(args):
