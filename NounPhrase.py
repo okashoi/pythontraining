@@ -10,7 +10,7 @@ def group(fin):
         uline = unicode(line.strip(), "utf-8")
         if uline.startswith(u"* ") or uline.startswith(u"EOF"):
             if nounphrase:
-                yield nounphrase + u"/t名詞句,*,*,*,*,*,*,*,*\t0"
+                yield nounphrase + u"/t名詞句,*,*,*,*,*," + nounphrase + ",*,*\t0"
                 nounphrase = u""
             yield uline
             continue
@@ -23,7 +23,7 @@ def group(fin):
 
         if pos != u"名詞":
             if nounphrase:
-                yield nounphrase + u"\t名詞句,*,*,*,*,*,*,*,*\t0"
+                yield nounphrase + u"\t名詞句,*,*,*,*,*," + nounphrase + ",*,*\t0"
                 nounphrase = u""
             yield uline
             continue
