@@ -17,7 +17,7 @@ if __name__ == '__main__':
         fin = open(sys.argv[1])
     except IndexError:
         sys.stderr.write("Error: Missing filename\n")
-        sys.stderr.write("Usage: python NounPhrase.py filename\n")
+        sys.stderr.write("Usage: python NumberExpression.py filename\n")
         sys.exit(-1)
     except IOError:
         sys.stderr.write("Error: The file doesn't exist")
