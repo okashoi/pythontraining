@@ -3,38 +3,48 @@
 
 # for python 2.x
 
+from collections import defaultdict
 
-def calculate(fins):
-    import math
-    from collections import defaultdict
+tf = defaultdict(int)
+df = defaultdict(int)
+filenum = 0
 
-    tf = defaultdict(int)
-    df = defaultdict(int)
-    for fin in fins:
-        word2freq = defaultdict(int)
-        for line in fin:
-            word2freq[unicode(line.strip(), "utf-8")] += 1
-        for word, freq in word2freq.items():
-            tf[word] += freq
-            df[word] += 1
 
-    N = len(fins)
-    for word in word2freq:
-        yield word, tf[word] * math.log(float(N) / df[word]), tf[word], df[word]
+def updateTfAndDf(fin):
+    global tf, df, filenum
+
+    word2freq = defaultdict(int)
+    for line in fin:
+        word2freq[line.strip()] += 1
+    for word, freq in word2freq.items():
+        tf[word] += freq
+        df[word] += 1
+    filenum += 1
+
+
+def calculateTfIdf(word):
+    from math import log
+    global tf, idf, filenum
+
+    return tf[word] * log(float(filenum) / df[word])
 
 
 def _main(args):
     import sys
-    fins = []
+
     for filename in args[1:]:
         try:
-            fins.append(open(filename))
+            fin = open(filename)
+            updateTfAndDf(fin)
+            fin.close()
         except IOError:
             sys.stderr.write("Error: The file \"" + filename +
                              "\" doesn't exist\n")
             return -1
-    for w, tfidf, tf, df in calculate(fins):
-        print w + "\t" + str(tfidf) + "\t" + str(tf) + "\t" + str(df)
+
+    for word in tf:
+        print "\t".join([word, str(calculateTfIdf(word)),
+                         str(tf[word]), str(df[word])])
 
     return 0
 
