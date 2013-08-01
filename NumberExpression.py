@@ -4,11 +4,8 @@
 # for python 2.*
 
 
-def isNumberExpression(word):
-    for char in word:
-        if char in u"0123456789０１２３４５６７８９":
-            return True
-    return False
+def isNumberExpression(word)
+    return any(char in u'0123456789０１２３４５６７８９' for char in word)
 
 if __name__ == '__main__':
     import sys
